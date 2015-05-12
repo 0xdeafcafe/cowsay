@@ -6,7 +6,7 @@ cowsay
 
 #### Usage
 ``` bash
-> .\cowsay gossip girl xox
+> .\cowsay gossip girl xoxo
  _________________
 < gossip girl xox >
  -----------------
