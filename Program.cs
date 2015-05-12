@@ -104,7 +104,8 @@ namespace cowsay
         public string Render()
         {
             DrawSpeechBubble();
-
+			DrawCow();
+			
             return null;
         }
 
@@ -134,7 +135,6 @@ namespace cowsay
                     }
                     else if (i == lines - 1)
                     {
-
                         lineStartChar = '\\';
                         lineEndChar = '/';
                     }
@@ -146,17 +146,64 @@ namespace cowsay
 			
             Builder.Add($" {'-'.RepeatChar(wrapperLineLength)}");
         }
+		
+		private void DrawCow()
+		{
+			var startingLinePadding = Builder.First().Length / 4;
+			
+			var eyeChar = 'o';
+			var tongueChar = ' ';
+			
+			switch(_renderOptions.AnimalMode)
+			{
+				case AnimalMode.Borg:
+					eyeChar = '=';
+					break;
+					
+				case AnimalMode.Dead:
+					eyeChar = 'x';
+					tongueChar = 'U';
+					break;
+					
+				case AnimalMode.Greedy:
+					eyeChar = '$';
+					break;
+					
+				case AnimalMode.Paranoid:
+					eyeChar = '@';
+					break;
+					
+				case AnimalMode.Stoned:
+					eyeChar = '*';
+					tongueChar = 'U';
+					break;
+					
+				case AnimalMode.Tired:
+					eyeChar = '-';
+					break;
+					
+				case AnimalMode.Wired:
+					eyeChar = 'O';
+					break;
+					
+				case AnimalMode.Youthful:
+					eyeChar = '.';
+					break;
+					
+			}
+			
+			Builder.Add($"{' '.RepeatChar(startingLinePadding)}\\   ^__^");
+			Builder.Add($"{' '.RepeatChar(startingLinePadding)} \\  ({eyeChar.RepeatChar(2)})\\_______");
+			Builder.Add($"{' '.RepeatChar(startingLinePadding)}    (__)\\       )\\/\\");
+			Builder.Add($"{' '.RepeatChar(startingLinePadding)}     {tongueChar.RepeatChar(1)}  ||----w |");
+			Builder.Add($"{' '.RepeatChar(startingLinePadding)}        ||     ||");
+		}
     }
 
     public static class Extensions
     {
         public static IEnumerable<String> SplitInParts(this String s, int partLength)
         {
-            if (s == null)
-                throw new ArgumentNullException("s");
-            if (partLength <= 0)
-                throw new ArgumentException("Part length has to be positive.", "partLength");
-
             for (var i = 0; i < s.Length; i += partLength)
                 yield return s.Substring(i, Math.Min(partLength, s.Length - i));
         }
